@@ -1,0 +1,198 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SWISS-MODEL CATH API",
+    "description": "SWISS-MODEL CATH API test test",
+    "termsOfService": "https://swissmodel.expasy.org/docs/terms_of_use",
+    "contact": {
+      "email": "help-swissmodel@unibas.ch"
+    },
+    "license": {
+      "name": "BSD License"
+    },
+    "version": "v1"
+  },
+  "host": "131.152.25.164:8010",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basic": []
+    }
+  ],
+  "paths": {
+    "/target-pdb-align/": {
+      "get": {
+        "operationId": "target-pdb-align_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Submit"
+              }
+            }
+          }
+        },
+        "tags": [
+          "target-pdb-align"
+        ]
+      },
+      "post": {
+        "operationId": "target-pdb-align_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
+          }
+        },
+        "tags": [
+          "target-pdb-align"
+        ]
+      },
+      "parameters": []
+    },
+    "/target-pdb-align/{project_code}/": {
+      "get": {
+        "operationId": "target-pdb-align_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Results"
+            }
+          }
+        },
+        "tags": [
+          "target-pdb-align"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "project_code",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Submit": {
+      "required": [
+        "target_sequence",
+        "template_sequence",
+        "pdb_id",
+        "chain"
+      ],
+      "type": "object",
+      "properties": {
+        "target_sequence": {
+          "title": "Target sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "template_sequence": {
+          "title": "Template sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "pdb_id": {
+          "title": "Pdb id",
+          "type": "string",
+          "maxLength": 4,
+          "minLength": 1
+        },
+        "chain": {
+          "title": "Chain",
+          "type": "string",
+          "maxLength": 1,
+          "minLength": 1
+        },
+        "assembly_id": {
+          "title": "Assembly id",
+          "type": "integer"
+        }
+      }
+    },
+    "Results": {
+      "type": "object",
+      "properties": {
+        "project_code": {
+          "title": "Project code",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "INITIALISED",
+            "QUEUEING",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "UNKNOWN"
+          ],
+          "readOnly": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "coordinates": {
+          "title": "Coordinates",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "date_created": {
+          "title": "Date created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "date_modified": {
+          "title": "Date modified",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    }
+  }
+}
