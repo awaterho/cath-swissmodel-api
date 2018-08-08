@@ -12,9 +12,9 @@
     },
     "version": "v1"
   },
-  "host": "131.152.25.164:8010",
+  "host": "swissmodel.expasy.org",
   "schemes": [
-    "http"
+    "https"
   ],
   "basePath": "/",
   "consumes": [
