@@ -1,192 +1,207 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "CATH Modelling API",
-      "description": "CATH / SWISS-MODEL ELIXIR Implementation Study",
-      "termsOfService": "https://www.google.com/policies/terms/",
-      "contact": {
-        "email": "i.sillitoe@ucl.ac.uk"
-      },
-      "license": {
-        "name": "BSD License"
-      },
-      "version": "v2"
+  "swagger": "2.0",
+  "info": {
+    "title": "SWISS-MODEL CATH API",
+    "description": "SWISS-MODEL CATH API test test",
+    "termsOfService": "https://swissmodel.expasy.org/docs/terms_of_use",
+    "contact": {
+      "email": "help-swissmodel@unibas.ch"
     },
-    "host": "localhost:8000",
-    "schemes": [
-      "http"
-    ],
-    "basePath": "/",
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "securityDefinitions": {
-      "basic": {
-        "type": "basic"
-      }
+    "license": {
+      "name": "BSD License"
     },
-    "security": [
-      {
-        "basic": []
-      }
-    ],
-    "paths": {
-      "/select-template/": {
-        "get": {
-          "operationId": "select-template_list",
-          "description": "This class defines the create behavior of our rest api.",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/SelectTemplateQuery"
-                }
+    "version": "v1"
+  },
+  "host": "131.152.25.164:8010",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basic": []
+    }
+  ],
+  "paths": {
+    "/target-pdb-align/": {
+      "get": {
+        "operationId": "target-pdb-align_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Submit"
               }
             }
-          },
-          "tags": [
-            "select-template"
-          ]
+          }
         },
-        "post": {
-          "operationId": "select-template_create",
-          "description": "This class defines the create behavior of our rest api.",
-          "parameters": [
-            {
-              "name": "data",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/SelectTemplateQuery"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "",
-              "schema": {
-                "$ref": "#/definitions/SelectTemplateQuery"
-              }
-            }
-          },
-          "tags": [
-            "select-template"
-          ]
-        },
-        "parameters": []
+        "tags": [
+          "target-pdb-align"
+        ]
       },
-      "/select-template/{id}/": {
-        "get": {
-          "operationId": "select-template_read",
-          "description": "This class handles the http GET and DELETE requests.",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "",
-              "schema": {
-                "$ref": "#/definitions/SelectTemplateResults"
-              }
-            }
-          },
-          "tags": [
-            "select-template"
-          ]
-        },
-        "delete": {
-          "operationId": "select-template_delete",
-          "description": "This class handles the http GET and DELETE requests.",
-          "parameters": [],
-          "responses": {
-            "204": {
-              "description": ""
-            }
-          },
-          "tags": [
-            "select-template"
-          ]
-        },
+      "post": {
+        "operationId": "target-pdb-align_create",
+        "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "A unique integer value identifying this select template task.",
+            "name": "data",
+            "in": "body",
             "required": true,
-            "type": "integer"
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
           }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
+          }
+        },
+        "tags": [
+          "target-pdb-align"
         ]
+      },
+      "parameters": []
+    },
+    "/target-pdb-align/{project_id}/": {
+      "get": {
+        "operationId": "target-pdb-align_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Results"
+            }
+          }
+        },
+        "tags": [
+          "target-pdb-align"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "project_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Submit": {
+      "required": [
+        "target_sequence",
+        "template_sequence",
+        "pdb_id",
+        "label_asym_id"
+      ],
+      "type": "object",
+      "properties": {
+        "target_sequence": {
+          "title": "Target sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "template_sequence": {
+          "title": "Template sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "template_offset": {
+          "title": "Template offset",
+          "type": "integer"
+        },
+        "pdb_id": {
+          "title": "Pdb id",
+          "type": "string",
+          "maxLength": 4,
+          "minLength": 1
+        },
+        "label_asym_id": {
+          "title": "Label asym id",
+          "type": "string",
+          "minLength": 1
+        },
+        "assembly_id": {
+          "title": "Assembly id",
+          "type": "integer"
+        },
+        "project_id": {
+          "title": "Project id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
       }
     },
-    "definitions": {
-      "SelectTemplateQuery": {
-        "required": [
-          "fasta"
-        ],
-        "type": "object",
-        "properties": {
-          "fasta": {
-            "title": "Fasta",
-            "type": "string",
-            "maxLength": 2000,
-            "minLength": 1
-          },
-          "task_id": {
-            "title": "Task id",
-            "type": "string",
-            "readOnly": true
-          }
-        }
-      },
-      "SelectTemplateResults": {
-        "type": "object",
-        "properties": {
-          "task_id": {
-            "title": "Task id",
-            "type": "string",
-            "readOnly": true
-          },
-          "status": {
-            "title": "Status",
-            "type": "string",
-            "enum": [
-              "Initialised",
-              "Queueing",
-              "Running",
-              "Completed",
-              "Error"
-            ],
-            "readOnly": true
-          },
-          "message": {
-            "title": "Message",
-            "type": "string",
-            "readOnly": true,
-            "minLength": 1
-          },
-          "date_created": {
-            "title": "Date created",
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "date_modified": {
-            "title": "Date modified",
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "results": {
-            "title": "Results",
-            "type": "string",
-            "readOnly": true,
-            "minLength": 1
-          }
+    "Results": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "title": "Project id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "smtl_id": {
+          "title": "Smtl id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "INITIALISED",
+            "QUEUEING",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "UNKNOWN"
+          ],
+          "readOnly": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "coordinates": {
+          "title": "Coordinates",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "date_created": {
+          "title": "Date created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
         }
       }
     }
   }
+}
