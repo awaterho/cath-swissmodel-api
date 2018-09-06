@@ -1,0 +1,280 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SWISS-MODEL CATH API",
+    "description": "SWISS-MODEL CATH API test test",
+    "termsOfService": "https://swissmodel.expasy.org/docs/terms_of_use",
+    "contact": {
+      "email": "help-swissmodel@unibas.ch"
+    },
+    "license": {
+      "name": "BSD License"
+    },
+    "version": "v1"
+  },
+  "host": "131.152.25.164:8010",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basic": []
+    }
+  ],
+  "paths": {
+    "/alignment/": {
+      "get": {
+        "operationId": "alignment_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Submit"
+              }
+            }
+          }
+        },
+        "tags": [
+          "alignment"
+        ]
+      },
+      "post": {
+        "operationId": "alignment_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Submit"
+            }
+          }
+        },
+        "tags": [
+          "alignment"
+        ]
+      },
+      "parameters": []
+    },
+    "/alignment/{project_id}/": {
+      "get": {
+        "operationId": "alignment_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Results"
+            }
+          }
+        },
+        "tags": [
+          "alignment"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "project_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/alignment/{project_id}/status/": {
+      "get": {
+        "operationId": "alignment_status_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "tags": [
+          "alignment"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "project_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/tasks/{id}/": {
+      "get": {
+        "operationId": "tasks_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "Submit": {
+      "required": [
+        "target_sequence",
+        "template_sequence",
+        "pdb_id",
+        "label_asym_id"
+      ],
+      "type": "object",
+      "properties": {
+        "target_sequence": {
+          "title": "Target sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "template_sequence": {
+          "title": "Template sequence",
+          "type": "string",
+          "minLength": 1
+        },
+        "template_offset": {
+          "title": "Template offset",
+          "type": "integer"
+        },
+        "pdb_id": {
+          "title": "Pdb id",
+          "type": "string",
+          "maxLength": 4,
+          "minLength": 1
+        },
+        "label_asym_id": {
+          "title": "Label asym id",
+          "type": "string",
+          "minLength": 1
+        },
+        "assembly_id": {
+          "title": "Assembly id",
+          "type": "integer"
+        },
+        "project_id": {
+          "title": "Project id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "Results": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "title": "Project id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "smtl_id": {
+          "title": "Smtl id",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "INITIALISED",
+            "QUEUEING",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "UNKNOWN"
+          ],
+          "readOnly": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "coordinates": {
+          "title": "Coordinates",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "date_created": {
+          "title": "Date created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "title": "Status",
+          "type": "string",
+          "enum": [
+            "INITIALISED",
+            "QUEUEING",
+            "RUNNING",
+            "COMPLETED",
+            "FAILED",
+            "UNKNOWN"
+          ],
+          "readOnly": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
